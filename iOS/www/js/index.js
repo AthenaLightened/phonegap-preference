@@ -64,6 +64,6 @@ var app = {
                     console.log(key + ", " + winParam[key]);
                 }
             }, null, "Preference", "getPreference", ["aaa", "bbb"]);
-        }, null, "Preference", "setPreference", ["aaa", 123]);
+        }, null, "Preference", "setPreference", ["aaa", "123"]);
     }
 };

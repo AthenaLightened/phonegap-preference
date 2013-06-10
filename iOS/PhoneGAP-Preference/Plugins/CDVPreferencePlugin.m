@@ -17,10 +17,12 @@
     NSMutableArray *keys = [[NSMutableArray alloc] init];
     NSString *key = nil;
     if ([command.arguments count] > 1) {
+        // handle the format like "getPreference("key1", "key2")"
         for (key in command.arguments) {
             [keys addObject:key];
         }
     } else {
+        // handle the format like "getPreference(["key1", "key2"])"
         id firstArgument = [command.arguments lastObject];
         if (firstArgument) {
             if ([firstArgument isKindOfClass:[NSArray class]]) {
@@ -54,16 +56,28 @@
 
 - (void)setPreference:(CDVInvokedUrlCommand*)command
 {
-    CDVPluginResult* pluginResult = nil;
-    if ([command.arguments count] != 2) {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    // prepare all the keys and values
+    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    if ([command.arguments count] > 1) {
+        // handle the format like "setPreference("key1", "value1")"
+        [values setValue:[command.arguments lastObject] forKey:[command.arguments objectAtIndex:0]];
     } else {
-        NSString *key = [command.arguments objectAtIndex:0];
-        id value = [command.arguments lastObject];
-        [[NSUserDefaults standardUserDefaults] setValue:value forKey:key];
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        // handle the format like "setPreference({"key1": "value1"})"
+        id firstArgument = [command.arguments lastObject];
+        if (firstArgument && [firstArgument isKindOfClass:[NSDictionary class]]) {
+            values = firstArgument;
+        }
     }
     
+    // set the values
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    for (NSString *key in values) {
+        [defaults setValue:values[key] forKey:key];
+    }
+    
+    // return back
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
