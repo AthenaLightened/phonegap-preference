@@ -56,7 +56,7 @@ var app = {
      * It will first call "setPreference" and then call "getPreference" 
      */
     testPreferencePlugin: function () {
-        var valuesToSet = {"int": 1, "bool": false, "float": 1.1, "string": "hello world", "array": [1, 2], "object": {"x": 1}};
+    	var valuesToSet = {"int": 1, "bool": false, "float": 1.1, "string": "hello world", "array": [1, 2], "object": {"x": 1}};
     	var keysToGet = [];
     	for (var k in valuesToSet) {
     		keysToGet.push(k);
@@ -66,8 +66,8 @@ var app = {
             cordova.exec(function(winParam) {
                 console.log("getPreference returned, and values are:");
                 for (var key in winParam) {
-                    var type = typeof(winParam[key]);
-                    type = type === "object" ? (winParam[key].hasOwnProperty("length") ? "array" : "object") : type;
+                	var type = typeof(winParam[key]);
+                	type = type === "object" ? (winParam[key].hasOwnProperty("length") ? "array" : "object") : type;
                     console.log("[" + type + "]" + key + ", " + winParam[key]);
                 }
             }, null, "Preference", "getPreference", keysToGet);

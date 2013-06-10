@@ -1,20 +1,20 @@
 # PhoneGAP Preference Plugin
 
-This plugin uses ```NSUserDefaults``` to save the user preference.
+This plugin uses ```SharedPreferences``` to save the user preference.
 
 ## Versions
 
 * phonegap 2.8.0
-* xcode 4.6
+* Android Developer Tools, Build: v22.0.0-675183
 
 ## How to use
 
-1. add ```CDVPreferencePlugin.h``` and ```CDVPreferencePlugin.m```
+1. add ```xu.li.phonegap.plugin.Preference```
 
 2. update ```config.xml```
 ```
 <feature name="Preference">
-        <param name="ios-package" value="CDVPreferencePlugin"/>
+        <param name="ios-package" value="xu.li.phonegap.plugin.Preference"/>
 </feature>
 ```
 
